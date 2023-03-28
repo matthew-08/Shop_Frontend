@@ -1,0 +1,8 @@
+query FetchShopItems {
+  allItems {
+    itemDescription
+    itemId
+    itemImage
+    itemName
+  }
+}

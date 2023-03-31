@@ -29,7 +29,7 @@ function ShoppingCart({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Create your account</DrawerHeader>
+        <DrawerHeader>Shopping Cart</DrawerHeader>
 
         <DrawerBody />
 

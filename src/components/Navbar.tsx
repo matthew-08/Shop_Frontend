@@ -4,18 +4,21 @@ import {
   List,
   ListItem,
   Container,
+  Button,
   Circle,
   Image,
   useMediaQuery,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useRef } from 'react';
 import shopcart from '../assets/shopping-cart.svg';
+import ShoppingCart from './ShoppingCart';
 
 function Navbar() {
   const [isSmallerThan1200] = useMediaQuery('(max-width: 1200px)');
   const [isSmallerThan700] = useMediaQuery('(max-width: 700px)');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef(null);
   return (
     <HStack
       as="nav"
@@ -50,16 +53,23 @@ function Navbar() {
           <ListItem cursor="pointer">Products</ListItem>
           <ListItem cursor="pointer">Contact</ListItem>
         </HStack>
-        <Image
-          src={shopcart}
-          borderRadius="full"
-          boxSize={isSmallerThan700 ? '55px' : '70px'}
-          background="white"
-          padding="0.8rem"
-          cursor="pointer"
-          onClick={() => isOpen}
-        />
+        <Button
+          background="none"
+          _hover={{ background: 'none' }}
+          ref={btnRef}
+          onClick={onOpen}
+        >
+          <Image
+            src={shopcart}
+            borderRadius="full"
+            boxSize={isSmallerThan700 ? '55px' : '70px'}
+            background="white"
+            padding="0.8rem"
+            cursor="pointer"
+          />
+        </Button>
       </HStack>
+      <ShoppingCart isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
     </HStack>
   );
 }

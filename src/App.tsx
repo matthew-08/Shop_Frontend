@@ -1,14 +1,17 @@
 import './global.css';
 import { useQuery } from 'urql';
 import { Text } from '@chakra-ui/react';
-import Routes from './Routes/Routes';
+import { BrowserRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import ApplicationRoutes from './Routes/ApplicationRoutes';
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <Routes />
+      <BrowserRouter>
+        <Navbar />
+        <ApplicationRoutes />
+      </BrowserRouter>
     </div>
   );
 }

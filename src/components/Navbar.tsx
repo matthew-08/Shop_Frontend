@@ -11,8 +11,29 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 import shopcart from '../assets/shopping-cart.svg';
 import ShoppingCart from './ShoppingCart';
+
+const navbarLinks = [
+  {
+    name: 'Home',
+    to: '/',
+  },
+  {
+    name: 'Products',
+    to: '/products',
+  },
+  {
+    name: 'Contact',
+    to: '/Contact',
+  },
+  {
+    name: 'Sign In',
+    to: '/signIn',
+  },
+];
 
 function Navbar() {
   const [isSmallerThan1200] = useMediaQuery('(max-width: 1200px)');
@@ -49,9 +70,13 @@ function Navbar() {
           mr={isSmallerThan700 ? '1.5rem' : '5rem'}
           mb={isSmallerThan700 ? '1.2rem' : '0.5rem'}
         >
-          <ListItem cursor="pointer">Home</ListItem>
-          <ListItem cursor="pointer">Products</ListItem>
-          <ListItem cursor="pointer">Contact</ListItem>
+          {navbarLinks.map((link) => {
+            return (
+              <ListItem key={uuid()} as={Link} to={link.to}>
+                {link.name}
+              </ListItem>
+            );
+          })}
         </HStack>
         <Button
           background="none"

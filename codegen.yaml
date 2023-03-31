@@ -4,7 +4,6 @@ documents: './src/graphql/'
 generates:
   src/generated/gql/:
     preset: 'client'
-    plugins: ['typescript-urql']
   ./graphql.schema.json:
     plugins:
       - 'introspection'

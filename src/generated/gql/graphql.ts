@@ -1,13 +1,10 @@
 /* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-import gql from 'graphql-tag';
-import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -65,18 +62,3 @@ export type FetchShopItemsQuery = { __typename?: 'Query', allItems: Array<{ __ty
 
 
 export const FetchShopItemsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchShopItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"itemDescription"}},{"kind":"Field","name":{"kind":"Name","value":"itemId"}},{"kind":"Field","name":{"kind":"Name","value":"itemImage"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}}]}}]}}]} as unknown as DocumentNode<FetchShopItemsQuery, FetchShopItemsQueryVariables>;
-
-export const FetchShopItemsDocument = gql`
-    query FetchShopItems {
-  allItems {
-    itemDescription
-    itemId
-    itemImage
-    itemName
-  }
-}
-    `;
-
-export function useFetchShopItemsQuery(options?: Omit<Urql.UseQueryArgs<FetchShopItemsQueryVariables>, 'query'>) {
-  return Urql.useQuery<FetchShopItemsQuery, FetchShopItemsQueryVariables>({ query: FetchShopItemsDocument, ...options });
-};

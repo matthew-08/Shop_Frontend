@@ -16,6 +16,34 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Error = {
+  __typename?: 'Error';
+  message: Scalars['String'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  checkForSession: MutationCheckForSessionResult;
+  register: User;
+};
+
+
+export type MutationCheckForSessionArgs = {
+  input: SessionCheckInput;
+};
+
+
+export type MutationRegisterArgs = {
+  input: UserRegisterInput;
+};
+
+export type MutationCheckForSessionResult = Error | MutationCheckForSessionSuccess;
+
+export type MutationCheckForSessionSuccess = {
+  __typename?: 'MutationCheckForSessionSuccess';
+  data: User;
+};
+
 export type Query = {
   __typename?: 'Query';
   allCategories: Array<ShopCategory>;
@@ -37,6 +65,10 @@ export type QueryItemByIdArgs = {
   id: Scalars['Int'];
 };
 
+export type SessionCheckInput = {
+  token?: InputMaybe<Scalars['String']>;
+};
+
 /** An object type for a shop category */
 export type ShopCategory = {
   __typename?: 'ShopCategory';
@@ -53,6 +85,20 @@ export type ShopItem = {
   itemImage: Scalars['String'];
   itemName: Scalars['String'];
   quantity: Scalars['Int'];
+};
+
+/** Object type representing a user */
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type UserRegisterInput = {
+  email: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type FetchShopItemsQueryVariables = Exact<{ [key: string]: never; }>;

@@ -29,7 +29,7 @@ function SignIn() {
     formState: { errors },
   } = useForm<FormState>();
 
-  const onSubmit = (data: FormState) => console.log(data);
+  const onSubmit = (data: FormState) => {};
 
   return (
     <>

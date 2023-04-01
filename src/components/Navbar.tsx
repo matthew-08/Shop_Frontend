@@ -29,10 +29,6 @@ const navbarLinks = [
     name: 'Contact',
     to: '/Contact',
   },
-  {
-    name: 'Sign In',
-    to: '/signIn',
-  },
 ];
 
 function Navbar() {

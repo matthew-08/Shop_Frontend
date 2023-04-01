@@ -1,7 +1,7 @@
 import React from 'react';
 
-function UnkownPage() {
+function UnknownPage() {
   return <div>404</div>;
 }
 
-export default UnkownPage;
+export default UnknownPage;

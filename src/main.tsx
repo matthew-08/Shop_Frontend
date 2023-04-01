@@ -10,9 +10,14 @@ import {
 } from 'urql';
 import App from './App';
 import theme from './theme';
+import getToken from './utils/getToken';
 
 const client = createClient({
   url: 'http://localhost:4000/',
+  fetchOptions: () => {
+    const token = getToken();
+    return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+  },
   exchanges: [dedupExchange, cacheExchange, fetchExchange],
 });
 

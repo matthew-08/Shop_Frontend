@@ -113,6 +113,7 @@ export type ShopItem = {
   itemId: Scalars['ID'];
   itemImage: Scalars['String'];
   itemName: Scalars['String'];
+  itemPrice: Scalars['Float'];
   quantity: Scalars['Int'];
 };
 
@@ -138,6 +139,8 @@ export type FetchShopItemsQuery = {
     itemDescription: string;
     itemImage: string;
     itemName: string;
+    quantity: number;
+    itemPrice: number;
   }>;
 };
 
@@ -175,6 +178,8 @@ export const FetchShopItemsDocument = gql`
       itemDescription
       itemImage
       itemName
+      quantity
+      itemPrice
     }
   }
 `;

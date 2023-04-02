@@ -42,7 +42,7 @@ function Register() {
   } = useForm<RegisterScehma>({
     resolver: yupResolver(registerSchema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data: RegisterScehma) => console.log(data);
   const isInputError = (input: keyof RegisterScehma) => input in errors;
   return (
     <VStack
@@ -61,19 +61,21 @@ function Register() {
         </InputGroup>
         <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={isInputError('password')}>
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<LockIcon />} />
           <Input type="text" {...register('password')} />
         </InputGroup>
+        <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={isInputError('confirmPassword')}>
         <FormLabel>Confirm Password</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<LockIcon />} />
           <Input type="text" {...register('confirmPassword')} />
         </InputGroup>
+        <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
       </FormControl>
       <Text>
         Already have an account?{' '}

@@ -1,0 +1,5 @@
+mutation Register($UserRegisterInput: UserRegisterInput) {
+  register(input: $UserRegisterInput) {
+    __typename
+  }
+}

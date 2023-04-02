@@ -3,5 +3,7 @@ query FetchShopItems {
     itemDescription
     itemImage
     itemName
+    quantity
+    itemPrice
   }
 }

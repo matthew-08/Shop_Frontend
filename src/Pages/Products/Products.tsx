@@ -1,5 +1,7 @@
+import { Flex, SimpleGrid } from '@chakra-ui/react';
 import React from 'react';
 import { useFetchShopItemsQuery } from '../../generated/graphql';
+import ProductCard from './components/ProductCard';
 
 function Products() {
   const { loading, data } = useFetchShopItemsQuery();
@@ -9,10 +11,14 @@ function Products() {
     products = <div>Loading...</div>;
   } else {
     products = data?.allItems.map((item) => {
-      return <div>{item.itemName}</div>;
+      return <ProductCard productInfo={item} />;
     });
   }
-  return products;
+  return (
+    <SimpleGrid as="main" px="20rem" gap="2rem" minChildWidth="330px" py="1rem">
+      {products}
+    </SimpleGrid>
+  );
 }
 
 export default Products;

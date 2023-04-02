@@ -2,31 +2,25 @@ import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import ReactDOM from 'react-dom/client';
 import {
-  createClient,
-  dedupExchange,
-  cacheExchange,
-  fetchExchange,
-  Provider,
-} from 'urql';
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from '@apollo/client';
 import App from './App';
 import theme from './theme';
-import getToken from './utils/getToken';
 
-const client = createClient({
-  url: 'http://localhost:4000/',
-  fetchOptions: () => {
-    const token = getToken();
-    return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-  },
-  exchanges: [dedupExchange, cacheExchange, fetchExchange],
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/',
+  cache: new InMemoryCache(),
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <Provider value={client}>
+      <ApolloProvider client={client}>
         <App />
-      </Provider>
+      </ApolloProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

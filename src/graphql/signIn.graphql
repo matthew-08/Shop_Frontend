@@ -3,8 +3,8 @@ input LoginInput {
   password: String!
 }
 
-mutation LogIn {
-  login(input: { email: "test", password: "test" }) {
+mutation LogIn($LoginType: LoginType!) {
+  login(input: $LoginType) {
     __typename
     ... on MutationLoginSuccess {
       data {

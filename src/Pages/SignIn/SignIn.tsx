@@ -15,7 +15,11 @@ import {
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useLogInMutation } from '../../graphql.schema';
+import { gql, useMutation } from '@apollo/client';
+import {
+  useFetchShopItemsQuery,
+  useLogInMutation,
+} from '../../generated/graphql';
 
 interface FormState {
   email: string;
@@ -28,10 +32,17 @@ function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormState>();
-  const [formResult, submitForm] = useLogInMutation();
+  const [mutateFunction, { data, loading, error }] = useLogInMutation();
 
-  const onSubmit = (data: FormState) => {
-    submitForm(data).then(res);
+  const onSubmit = (formData: FormState) => {
+    mutateFunction({
+      variables: {
+        LoginType: {
+          email: formData.email,
+          password: formData.password,
+        },
+      },
+    });
   };
 
   return (

@@ -21,15 +21,26 @@ export type Error = {
   message: Scalars['String'];
 };
 
+export type LoginType = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   checkForSession: MutationCheckForSessionResult;
+  login: MutationLoginResult;
   register: User;
 };
 
 
 export type MutationCheckForSessionArgs = {
   input: SessionCheckInput;
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginType;
 };
 
 
@@ -41,6 +52,13 @@ export type MutationCheckForSessionResult = Error | MutationCheckForSessionSucce
 
 export type MutationCheckForSessionSuccess = {
   __typename?: 'MutationCheckForSessionSuccess';
+  data: User;
+};
+
+export type MutationLoginResult = Error | MutationLoginSuccess;
+
+export type MutationLoginSuccess = {
+  __typename?: 'MutationLoginSuccess';
   data: User;
 };
 
@@ -104,7 +122,13 @@ export type UserRegisterInput = {
 export type FetchShopItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchShopItemsQuery = { __typename?: 'Query', allItems: Array<{ __typename?: 'ShopItem', itemDescription: string, itemId: string, itemImage: string, itemName: string }> };
+export type FetchShopItemsQuery = { __typename?: 'Query', allItems: Array<{ __typename?: 'ShopItem', itemDescription: string, itemImage: string, itemName: string }> };
+
+export type LogInMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export const FetchShopItemsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchShopItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"itemDescription"}},{"kind":"Field","name":{"kind":"Name","value":"itemId"}},{"kind":"Field","name":{"kind":"Name","value":"itemImage"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}}]}}]}}]} as unknown as DocumentNode<FetchShopItemsQuery, FetchShopItemsQueryVariables>;
+export type LogInMutation = { __typename?: 'Mutation', login: { __typename: 'Error', message: string } | { __typename: 'MutationLoginSuccess', data: { __typename?: 'User', email: string, id: string, name: string, token: string } } };
+
+
+export const FetchShopItemsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchShopItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"itemDescription"}},{"kind":"Field","name":{"kind":"Name","value":"itemImage"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}}]}}]}}]} as unknown as DocumentNode<FetchShopItemsQuery, FetchShopItemsQueryVariables>;
+export const LogInDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogIn"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"StringValue","value":"test","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"StringValue","value":"test","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"MutationLoginSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Error"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<LogInMutation, LogInMutationVariables>;

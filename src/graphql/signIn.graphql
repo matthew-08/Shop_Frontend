@@ -1,3 +1,21 @@
-mutation ok {
-    
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+mutation LogIn {
+  login(input: { email: "test", password: "test" }) {
+    __typename
+    ... on MutationLoginSuccess {
+      data {
+        email
+        id
+        name
+        token
+      }
+    }
+    ... on Error {
+      message
+    }
+  }
 }

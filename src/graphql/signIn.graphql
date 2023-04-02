@@ -10,7 +10,6 @@ mutation LogIn($LoginType: LoginType!) {
       data {
         email
         id
-        name
         token
       }
     }

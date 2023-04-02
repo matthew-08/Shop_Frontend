@@ -37,7 +37,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   checkForSession: MutationCheckForSessionResult;
   login: MutationLoginResult;
-  register: User;
+  register: MutationRegisterResult;
 };
 
 export type MutationCheckForSessionArgs = {
@@ -65,6 +65,13 @@ export type MutationLoginResult = Error | MutationLoginSuccess;
 
 export type MutationLoginSuccess = {
   __typename?: 'MutationLoginSuccess';
+  data: User;
+};
+
+export type MutationRegisterResult = Error | MutationRegisterSuccess;
+
+export type MutationRegisterSuccess = {
+  __typename?: 'MutationRegisterSuccess';
   data: User;
 };
 
@@ -114,13 +121,12 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['ID'];
-  name: Scalars['String'];
   token: Scalars['String'];
 };
 
 export type UserRegisterInput = {
   email: Scalars['String'];
-  name: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type FetchShopItemsQueryVariables = Exact<{ [key: string]: never }>;
@@ -135,6 +141,20 @@ export type FetchShopItemsQuery = {
   }>;
 };
 
+export type RegisterMutationVariables = Exact<{
+  UserRegisterInput: UserRegisterInput;
+}>;
+
+export type RegisterMutation = {
+  __typename?: 'Mutation';
+  register:
+    | { __typename: 'Error'; message: string }
+    | {
+        __typename: 'MutationRegisterSuccess';
+        data: { __typename?: 'User'; email: string; id: string; token: string };
+      };
+};
+
 export type LogInMutationVariables = Exact<{
   LoginType: LoginType;
 }>;
@@ -145,13 +165,7 @@ export type LogInMutation = {
     | { __typename: 'Error'; message: string }
     | {
         __typename: 'MutationLoginSuccess';
-        data: {
-          __typename?: 'User';
-          email: string;
-          id: string;
-          name: string;
-          token: string;
-        };
+        data: { __typename?: 'User'; email: string; id: string; token: string };
       };
 };
 
@@ -214,6 +228,63 @@ export type FetchShopItemsQueryResult = Apollo.QueryResult<
   FetchShopItemsQuery,
   FetchShopItemsQueryVariables
 >;
+export const RegisterDocument = gql`
+  mutation Register($UserRegisterInput: UserRegisterInput!) {
+    register(input: $UserRegisterInput) {
+      __typename
+      ... on Error {
+        message
+      }
+      ... on MutationRegisterSuccess {
+        data {
+          email
+          id
+          token
+        }
+      }
+    }
+  }
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      UserRegisterInput: // value for 'UserRegisterInput'
+ *   },
+ * });
+ */
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RegisterMutation,
+    RegisterMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+    RegisterDocument,
+    options
+  );
+}
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
 export const LogInDocument = gql`
   mutation LogIn($LoginType: LoginType!) {
     login(input: $LoginType) {
@@ -222,7 +293,6 @@ export const LogInDocument = gql`
         data {
           email
           id
-          name
           token
         }
       }

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-children-prop */
 /* eslint-disable react/jsx-props-no-spreading */
 import { EmailIcon, LockIcon } from '@chakra-ui/icons';
@@ -19,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { object, string, number, date, InferType, ref } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRegisterMutation } from '../../generated/graphql';
 
 type RegisterScehma = {
   email: string;
@@ -39,10 +41,27 @@ function Register() {
     handleSubmit,
     register,
     formState: { errors },
+    setError,
   } = useForm<RegisterScehma>({
     resolver: yupResolver(registerSchema),
   });
-  const onSubmit = (data: RegisterScehma) => console.log(data);
+  const [registerMutation, { data, loading, error }] = useRegisterMutation();
+  const onSubmit = (formData: RegisterScehma) => {
+    registerMutation({
+      variables: {
+        UserRegisterInput: {
+          email: formData.email,
+          password: formData.password,
+        },
+      },
+    });
+  };
+  if (data) {
+    if (data.register.__typename === 'MutationRegisterSuccess') {
+      const { token } = data.register.data;
+      localStorage.setItem('token', token);
+    }
+  }
   const isInputError = (input: keyof RegisterScehma) => input in errors;
   return (
     <VStack
@@ -89,6 +108,7 @@ function Register() {
         fontSize="1.4rem"
         padding="1.4rem"
         type="submit"
+        isLoading={loading}
       >
         Submit
       </Button>

@@ -44,6 +44,12 @@ function SignIn() {
       },
     });
   };
+  if (loading) {
+    console.log('loading');
+  }
+  if (data) {
+    console.log(data);
+  }
 
   return (
     <>

@@ -17,22 +17,49 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+import { object, string, number, date, InferType, ref } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+type RegisterScehma = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+const registerSchema = object({
+  email: string().required('Email is required'),
+  password: string()
+    .required('Password is required.')
+    .min(6, 'Your password must be at least 6 characters long'),
+  confirmPassword: string().oneOf([ref('password')], 'Passwords must match'),
+});
 
 function Register() {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm<RegisterScehma>({
+    resolver: yupResolver(registerSchema),
+  });
+  const onSubmit = (data) => console.log(data);
+  const isInputError = (input: keyof RegisterScehma) => input in errors;
   return (
-    <VStack as="form" maxWidth="400px" m="auto" mt="7rem" onSubmit={() => true}>
+    <VStack
+      as="form"
+      maxWidth="400px"
+      m="auto"
+      mt="7rem"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Heading>Sign-Up</Heading>
-      <FormControl>
+      <FormControl isInvalid={isInputError('email')}>
         <FormLabel>Email</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
-          <Input type="email" {...register('email')} />
+          <Input type="text" {...register('email')} />
         </InputGroup>
+        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
       </FormControl>
       <FormControl>
         <FormLabel>Password</FormLabel>
@@ -45,7 +72,7 @@ function Register() {
         <FormLabel>Confirm Password</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<LockIcon />} />
-          <Input type="text" {...register('confirm-password')} />
+          <Input type="text" {...register('confirmPassword')} />
         </InputGroup>
       </FormControl>
       <Text>

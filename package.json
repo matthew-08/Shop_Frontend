@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.10.6",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@graphql-codegen/urql-introspection": "^2.2.1",
+    "@hookform/resolvers": "^3.0.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@urql/exchange-auth": "^2.1.0",
     "eslint-config-airbnb-typescript": "^17.0.0",

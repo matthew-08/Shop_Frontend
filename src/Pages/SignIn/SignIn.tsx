@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import wave from './wave.svg';
+import { useLogInMutation } from '../../graphql.schema';
 
 interface FormState {
   email: string;
@@ -28,8 +28,11 @@ function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormState>();
+  const [formResult, submitForm] = useLogInMutation();
 
-  const onSubmit = (data: FormState) => {};
+  const onSubmit = (data: FormState) => {
+    submitForm(data).then(res);
+  };
 
   return (
     <>

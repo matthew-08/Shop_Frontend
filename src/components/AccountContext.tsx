@@ -1,20 +1,5 @@
-import {
-  createContext,
-  ReactNode,
-  useState,
-  Dispatch,
-  SetStateAction,
-} from 'react';
-
-interface User {
-  email: string | null;
-  id: string | null;
-}
-
-interface AuthContextType {
-  user: null | User;
-  setUser: Dispatch<SetStateAction<User>>;
-}
+import { createContext, ReactNode, useState } from 'react';
+import { User, AuthContextType } from '../types';
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,

@@ -6,27 +6,20 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText,
   VStack,
   Heading,
   Input,
   Text,
-  ButtonGroup,
   Button,
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import { object, string, number, date, InferType, ref } from 'yup';
+import { object, string, ref } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRegisterMutation } from '../../generated/graphql';
-
-type RegisterScehma = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+import { RegisterScehma } from '../../types';
 
 const registerSchema = object({
   email: string().required('Email is required'),

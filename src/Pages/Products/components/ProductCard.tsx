@@ -1,13 +1,5 @@
-import {
-  Container,
-  Flex,
-  Image,
-  VStack,
-  Heading,
-  Text,
-  Button,
-} from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import { Container, Flex, Image, VStack, Text, Button } from '@chakra-ui/react';
+import { useContext } from 'react';
 import type { ShopItem } from '../../../generated/graphql';
 import { AuthContext } from '../../../components/AccountContext';
 import { UserCartContext } from '../../../components/CartContext';

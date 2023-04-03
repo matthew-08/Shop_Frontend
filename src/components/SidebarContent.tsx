@@ -1,5 +1,6 @@
 import { Heading, VStack, Text } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
+import { v4 as uuid } from 'uuid';
 import { AuthContext } from './AccountContext';
 import { UserCartContext } from './CartContext';
 import CartProduct from './CartProduct';
@@ -13,7 +14,7 @@ function SidebarContent() {
       <VStack>
         {cart?.length ? (
           cart.map((item) => {
-            return <CartProduct cartItem={item} />;
+            return <CartProduct key={uuid()} cartItem={item} />;
           })
         ) : (
           <Text>Your cart is empty.</Text>

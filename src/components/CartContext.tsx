@@ -6,16 +6,7 @@ import {
   ReactNode,
 } from 'react';
 import { ShopItem } from '../generated/graphql';
-
-export interface CartItem extends ShopItem {
-  itemQuantity: number;
-}
-
-interface CartContextType {
-  cart: CartItem[] | null;
-  id: string | null;
-  handleAddToCart: (item: ShopItem) => void;
-}
+import { CartItem, CartContextType } from '../types';
 
 export const UserCartContext = createContext<CartContextType>({
   cart: null,
@@ -25,7 +16,6 @@ export const UserCartContext = createContext<CartContextType>({
 
 function CartContext({ children }: { children: ReactNode }) {
   const [cart, addToCart] = useState<CartItem[]>([]);
-  console.log(cart);
   const handleAddToCart = (item: ShopItem) => {
     const itemExists = cart.find((i) => i.itemId === item.itemId);
     if (itemExists) {

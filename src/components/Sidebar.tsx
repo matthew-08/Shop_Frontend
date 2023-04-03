@@ -4,11 +4,9 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  DrawerHeader,
   DrawerBody,
   DrawerFooter,
   Button,
-  Heading,
 } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
 

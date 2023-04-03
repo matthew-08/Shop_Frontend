@@ -8,9 +8,11 @@ import {
   DrawerBody,
   DrawerFooter,
   Button,
+  Heading,
 } from '@chakra-ui/react';
+import SidebarContent from './SidebarContent';
 
-function ShoppingCart({
+function Sidebar({
   isOpen,
   onClose,
   btnRef,
@@ -22,6 +24,8 @@ function ShoppingCart({
   return (
     <Drawer
       isOpen={isOpen}
+      colorScheme="blackAlpha"
+      size="lg"
       placement="right"
       onClose={onClose}
       finalFocusRef={btnRef}
@@ -29,9 +33,9 @@ function ShoppingCart({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Shopping Cart</DrawerHeader>
-
-        <DrawerBody />
+        <DrawerBody>
+          <SidebarContent />
+        </DrawerBody>
 
         <DrawerFooter>
           <Button variant="outline" mr={3} onClick={onClose}>
@@ -44,4 +48,4 @@ function ShoppingCart({
   );
 }
 
-export default ShoppingCart;
+export default Sidebar;

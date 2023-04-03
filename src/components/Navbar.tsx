@@ -14,7 +14,7 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import shopcart from '../assets/shopping-cart.svg';
-import ShoppingCart from './ShoppingCart';
+import Sidebar from './Sidebar';
 
 const navbarLinks = [
   {
@@ -90,7 +90,7 @@ function Navbar() {
           />
         </Button>
       </HStack>
-      <ShoppingCart isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
+      <Sidebar isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
     </HStack>
   );
 }

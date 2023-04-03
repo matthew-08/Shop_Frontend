@@ -7,7 +7,6 @@ import AccountContext from './components/AccountContext';
 import CartContext from './components/CartContext';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState<User>({} as User);
   return (
     <div className="App">
       <BrowserRouter>

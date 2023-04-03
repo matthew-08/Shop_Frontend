@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { ShopItem } from '../generated/graphql';
 
-interface CartItem extends ShopItem {
+export interface CartItem extends ShopItem {
   itemQuantity: number;
 }
 

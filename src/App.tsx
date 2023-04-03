@@ -1,27 +1,19 @@
 import './global.css';
-import { useQuery } from 'urql';
-import { Text } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import { createContext, useState } from 'react';
 import Navbar from './components/Navbar';
-import ApplicationRoutes from './Routes/ApplicationRoutes';
-
-const AuthContext = createContext({});
-
-interface User {
-  email: string;
-  id: string;
-}
+import ApplicationRoutes from './ApplicationRoutes';
+import AccountContext from './components/AccountContext';
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User>({} as User);
   return (
     <div className="App">
       <BrowserRouter>
-        <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+        <AccountContext>
           <Navbar />
           <ApplicationRoutes />
-        </AuthContext.Provider>
+        </AccountContext>
       </BrowserRouter>
     </div>
   );

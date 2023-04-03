@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Homepage from '../Pages/Homepage/Homepage';
-import Register from '../Pages/Register/Register';
-import SignIn from '../Pages/SignIn/SignIn';
-import Products from '../Pages/Products/Products';
-import Contact from '../Pages/Contact/Contact';
-import UnknownPage from '../Pages/404/UnknownPage';
+import Homepage from './Pages/Homepage/Homepage';
+import Register from './Pages/Register/Register';
+import SignIn from './Pages/SignIn/SignIn';
+import Products from './Pages/Products/Products';
+import Contact from './Pages/Contact/Contact';
+import UnknownPage from './Pages/404/UnknownPage';
 
 function ApplicationRoutes() {
   return (

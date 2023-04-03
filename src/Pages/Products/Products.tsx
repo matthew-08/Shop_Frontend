@@ -1,5 +1,4 @@
 import { Flex, SimpleGrid } from '@chakra-ui/react';
-import React from 'react';
 import { useFetchShopItemsQuery } from '../../generated/graphql';
 import ProductCard from './components/ProductCard';
 

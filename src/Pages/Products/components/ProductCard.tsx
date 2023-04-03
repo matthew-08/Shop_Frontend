@@ -7,10 +7,12 @@ import {
   Text,
   Button,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import type { ShopItem } from '../../../generated/graphql';
+import { AuthContext } from '../../../components/AccountContext';
 
 function ProductCard({ productInfo }: { productInfo: ShopItem }) {
+  const { user } = useContext(AuthContext);
   return (
     <VStack
       minH="360px"
@@ -28,19 +30,25 @@ function ProductCard({ productInfo }: { productInfo: ShopItem }) {
         />
       </Container>
       <VStack height="100%" width="100%">
-        <Text fontSize="1.5rem" mr="auto" noOfLines={4}>
-          {productInfo.itemName}
-        </Text>
-        <Flex height="100%" flexDir="column" width="100%">
-          <Text fontSize="2rem" mt="auto" mb="0.5rem">
+        <Flex width="100%">
+          <Text fontSize="1.5rem" mr="auto" noOfLines={3} textAlign="left">
+            {productInfo.itemName}
+          </Text>
+        </Flex>
+        <Flex height="100%" minH="150px" flexDir="column" width="100%">
+          <Text fontSize="2rem" mt="auto" mb="0.8rem">
             ${productInfo.itemPrice}
           </Text>
 
           <Button
             width="100%"
             size="lg"
-            padding="0.5rem"
+            padding="1.5rem"
+            py="2rem"
             color="white"
+            _hover={{
+              backgroundColor: 'blackAlpha.700',
+            }}
             backgroundColor="blackAlpha.800"
           >
             Add to cart

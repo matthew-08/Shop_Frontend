@@ -15,11 +15,11 @@ export const UserCartContext = createContext<CartContextType>({
 });
 
 function CartContext({ children }: { children: ReactNode }) {
-  const [cart, addToCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
   const handleAddToCart = (item: ShopItem) => {
     const itemExists = cart.find((i) => i.itemId === item.itemId);
     if (itemExists) {
-      addToCart(
+      setCart(
         cart.map((i) => {
           if (i.itemId === item.itemId) {
             const updateQuanaity = i.itemQuantity + 1;
@@ -29,7 +29,7 @@ function CartContext({ children }: { children: ReactNode }) {
         })
       );
     } else {
-      addToCart([
+      setCart([
         ...cart,
         {
           ...item,
@@ -38,8 +38,26 @@ function CartContext({ children }: { children: ReactNode }) {
       ]);
     }
   };
+  const handleRemoveFromCart = (cartItem: CartItem) => {
+    const itemToDelete = cart.find((item) => item.itemId === cartItem.itemId);
+    if (itemToDelete?.quantity === 1) {
+      setCart(cart.filter((c) => c.itemId !== cartItem.itemId));
+    } else {
+      setCart(
+        cart.map((c) => {
+          if (c.itemId === cartItem.itemId) {
+            const updatedQuantity = c.itemQuantity - 1;
+            return { ...c, itemQuantity: updatedQuantity };
+          }
+          return c;
+        })
+      );
+    }
+  };
   return (
-    <UserCartContext.Provider value={{ cart, handleAddToCart }}>
+    <UserCartContext.Provider
+      value={{ cart, handleAddToCart, handleRemoveFromCart }}
+    >
       {children}
     </UserCartContext.Provider>
   );

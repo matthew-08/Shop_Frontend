@@ -14,7 +14,7 @@ import { UserCartContext } from '../../../components/CartContext';
 
 function ProductCard({ productInfo }: { productInfo: ShopItem }) {
   const { user } = useContext(AuthContext);
-  const { addToCart } = useContext(UserCartContext);
+  const { handleAddToCart } = useContext(UserCartContext);
 
   return (
     <VStack
@@ -49,7 +49,7 @@ function ProductCard({ productInfo }: { productInfo: ShopItem }) {
             padding="1.5rem"
             py="2rem"
             color="white"
-            onClick={() => addToCart(productInfo)}
+            onClick={() => handleAddToCart(productInfo)}
             _hover={{
               backgroundColor: 'blackAlpha.700',
             }}

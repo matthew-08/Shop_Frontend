@@ -139,6 +139,7 @@ export type FetchShopItemsQuery = {
     itemDescription: string;
     itemImage: string;
     itemName: string;
+    itemId: string;
     quantity: number;
     itemPrice: number;
   }>;
@@ -178,6 +179,7 @@ export const FetchShopItemsDocument = gql`
       itemDescription
       itemImage
       itemName
+      itemId
       quantity
       itemPrice
     }

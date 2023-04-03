@@ -4,6 +4,7 @@ import { createContext, useState } from 'react';
 import Navbar from './components/Navbar';
 import ApplicationRoutes from './ApplicationRoutes';
 import AccountContext from './components/AccountContext';
+import CartContext from './components/CartContext';
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User>({} as User);
@@ -11,8 +12,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <AccountContext>
-          <Navbar />
-          <ApplicationRoutes />
+          <CartContext>
+            <Navbar />
+            <ApplicationRoutes />
+          </CartContext>
         </AccountContext>
       </BrowserRouter>
     </div>

@@ -10,9 +10,12 @@ import {
 import React, { useContext } from 'react';
 import type { ShopItem } from '../../../generated/graphql';
 import { AuthContext } from '../../../components/AccountContext';
+import { UserCartContext } from '../../../components/CartContext';
 
 function ProductCard({ productInfo }: { productInfo: ShopItem }) {
   const { user } = useContext(AuthContext);
+  const { addToCart } = useContext(UserCartContext);
+
   return (
     <VStack
       minH="360px"
@@ -46,6 +49,7 @@ function ProductCard({ productInfo }: { productInfo: ShopItem }) {
             padding="1.5rem"
             py="2rem"
             color="white"
+            onClick={() => addToCart(productInfo)}
             _hover={{
               backgroundColor: 'blackAlpha.700',
             }}

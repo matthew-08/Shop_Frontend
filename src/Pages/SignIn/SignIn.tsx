@@ -2,29 +2,17 @@
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   VStack,
   Text,
   Heading,
-  Link,
   ButtonGroup,
   Image,
   Button,
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { gql, useMutation } from '@apollo/client';
-import {
-  useFetchShopItemsQuery,
-  useLogInMutation,
-} from '../../generated/graphql';
-
-interface FormState {
-  email: string;
-  password: string;
-}
+import { useForm, FormState } from 'react-hook-form';
+import { useLogInMutation } from '../../generated/graphql';
 
 function SignIn() {
   const {

@@ -1,0 +1,15 @@
+mutation ($input: SessionCheckInput!) {
+  checkForSession(input: $input) {
+    __typename
+    ... on Error {
+      message
+    }
+    ... on MutationCheckForSessionSuccess {
+      data {
+        email
+        id
+        token
+      }
+    }
+  }
+}

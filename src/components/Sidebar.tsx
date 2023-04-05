@@ -11,6 +11,7 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import SidebarContent from './SidebarContent';
 import { AuthContext } from './AccountContext';
 
@@ -24,7 +25,7 @@ function Sidebar({
   btnRef: React.RefObject<HTMLButtonElement>;
 }) {
   const { user } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   return (
     <Drawer
       isOpen={isOpen}
@@ -64,6 +65,10 @@ function Sidebar({
               padding="1.5rem"
               colorScheme="green"
               width="100%"
+              onClick={() => {
+                navigate('/signIn');
+                onClose();
+              }}
             >
               Login
             </Button>

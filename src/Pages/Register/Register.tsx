@@ -15,11 +15,13 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { object, string, ref } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useContext, useEffect } from 'react';
 import { useRegisterMutation } from '../../generated/graphql';
 import { RegisterScehma } from '../../types';
+import { AuthContext } from '../../components/AccountContext';
 
 const registerSchema = object({
   email: string().required('Email is required'),
@@ -38,6 +40,8 @@ function Register() {
   } = useForm<RegisterScehma>({
     resolver: yupResolver(registerSchema),
   });
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(AuthContext);
   const [registerMutation, { data, loading, error }] = useRegisterMutation();
   const onSubmit = (formData: RegisterScehma) => {
     registerMutation({
@@ -56,6 +60,9 @@ function Register() {
     }
   }
   const isInputError = (input: keyof RegisterScehma) => input in errors;
+  if (user) {
+    return navigate('/');
+  }
   return (
     <VStack
       as="form"

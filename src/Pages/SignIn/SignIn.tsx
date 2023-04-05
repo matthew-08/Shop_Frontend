@@ -59,7 +59,7 @@ function SignIn() {
         </FormControl>
         <Text>
           Don't have an account?{' '}
-          <Text to="/" color="blue.400" as={NavLink}>
+          <Text to="/register" color="blue.400" as={NavLink}>
             Sign up here.
           </Text>
         </Text>

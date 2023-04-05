@@ -31,12 +31,13 @@ function CartProduct({ cartItem }: { cartItem: CartItem }) {
         objectFit="contain"
         mr="1rem"
       />
-      <VStack>
+      <VStack minW="70%">
         <Text noOfLines={2} maxW="40ch" fontSize="1.3rem" fontWeight="bold">
           {cartItem.itemName}
         </Text>
-        <Text fontSize="1.5rem" fontWeight="bold">
-          $ {cartItem.itemPrice * cartItem.itemQuantity}
+        <Text fontSize="2rem" fontWeight="bold" pr="1rem">
+          ${' '}
+          {Math.round((cartItem.itemPrice * cartItem.itemQuantity * 100) / 100)}
         </Text>
         <Flex align="center">
           <IconButton

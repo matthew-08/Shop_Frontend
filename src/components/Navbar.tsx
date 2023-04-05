@@ -7,11 +7,13 @@ import {
   Image,
   useMediaQuery,
   useDisclosure,
+  Circle,
 } from '@chakra-ui/react';
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import shopcart from '../assets/shopping-cart.svg';
+import { UserCartContext } from './CartContext';
 import Sidebar from './Sidebar';
 
 const navbarLinks = [
@@ -34,6 +36,7 @@ function Navbar() {
   const [isSmallerThan700] = useMediaQuery('(max-width: 700px)');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
+  const { cart } = useContext(UserCartContext);
   return (
     <HStack
       as="nav"
@@ -77,7 +80,19 @@ function Navbar() {
           _hover={{ background: 'none' }}
           ref={btnRef}
           onClick={onOpen}
+          position="relative"
         >
+          {cart && (
+            <Circle
+              position="absolute"
+              bottom={-4}
+              left={2}
+              size="30px"
+              backgroundColor="red.400"
+            >
+              {cart?.length}
+            </Circle>
+          )}
           <Image
             src={shopcart}
             borderRadius="full"

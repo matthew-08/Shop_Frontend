@@ -1,4 +1,4 @@
-import { SimpleGrid } from '@chakra-ui/react';
+import { SimpleGrid, Flex, useMediaQuery } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 import { Audio } from 'react-loader-spinner';
 import { useFetchShopItemsQuery } from '../../generated/graphql';
@@ -6,10 +6,13 @@ import ProductCard from './components/ProductCard';
 
 function Products() {
   const { loading, data } = useFetchShopItemsQuery();
+  const [isSmallerThan1000] = useMediaQuery('(max-width: 1000px)');
   let products;
   if (loading) {
     products = (
-      <Audio height="300" width="300" color="green" ariaLabel="loading" />
+      <Flex m="auto" mt="3rem">
+        <Audio height="300" width="300" color="#C4F1F9" ariaLabel="loading" />
+      </Flex>
     );
   } else {
     products = data?.allItems.map((item) => {
@@ -17,7 +20,13 @@ function Products() {
     });
   }
   return (
-    <SimpleGrid as="main" px="20rem" gap="2rem" minChildWidth="330px" py="1rem">
+    <SimpleGrid
+      as="main"
+      px={isSmallerThan1000 ? '1rem' : '20rem'}
+      gap="2rem"
+      minChildWidth="330px"
+      py="1rem"
+    >
       {products}
     </SimpleGrid>
   );

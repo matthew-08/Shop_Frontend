@@ -1,10 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  useState,
-  SetStateAction,
-  ReactNode,
-} from 'react';
+import { createContext, useState, ReactNode } from 'react';
 import { ShopItem } from '../generated/graphql';
 import { CartItem, CartContextType } from '../types';
 
@@ -12,6 +6,7 @@ export const UserCartContext = createContext<CartContextType>({
   cart: null,
   id: null,
   handleAddToCart: () => null,
+  handleRemoveFromCart: () => null,
 });
 
 function CartContext({ children }: { children: ReactNode }) {
@@ -40,7 +35,7 @@ function CartContext({ children }: { children: ReactNode }) {
   };
   const handleRemoveFromCart = (cartItem: CartItem) => {
     const itemToDelete = cart.find((item) => item.itemId === cartItem.itemId);
-    if (itemToDelete?.quantity === 1) {
+    if (itemToDelete?.itemQuantity === 1) {
       setCart(cart.filter((c) => c.itemId !== cartItem.itemId));
     } else {
       setCart(
@@ -54,9 +49,20 @@ function CartContext({ children }: { children: ReactNode }) {
       );
     }
   };
+  const cartTotal = () => {
+    if (cart.length === 0) {
+      return 0;
+    }
+    const total = cart.reduce((acc, item) => {
+      // eslint-disable-next-line no-param-reassign
+      acc += item.itemPrice * item.itemQuantity;
+      return acc;
+    }, 0);
+    return total;
+  };
   return (
     <UserCartContext.Provider
-      value={{ cart, handleAddToCart, handleRemoveFromCart }}
+      value={{ cart, handleAddToCart, handleRemoveFromCart, cartTotal }}
     >
       {children}
     </UserCartContext.Provider>

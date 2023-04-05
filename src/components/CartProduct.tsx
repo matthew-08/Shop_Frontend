@@ -14,9 +14,13 @@ import { CartItem } from '../types';
 import { UserCartContext } from './CartContext';
 
 function CartProduct({ cartItem }: { cartItem: CartItem }) {
-  const { cart } = useContext(UserCartContext);
+  const { cart, handleRemoveFromCart, handleAddToCart } =
+    useContext(UserCartContext);
   const handleClick = (symbol: '-' | '+') => {
     if (symbol === '-') {
+      handleRemoveFromCart(cartItem);
+    } else {
+      handleAddToCart(cartItem);
     }
   };
   return (
@@ -37,12 +41,17 @@ function CartProduct({ cartItem }: { cartItem: CartItem }) {
         <Flex align="center">
           <IconButton
             aria-label="button"
-            icon={<MinusIcon boxSize={4} onClick={() => handleClick('-')} />}
+            onClick={() => handleClick('-')}
+            icon={<MinusIcon boxSize={4} />}
           />
           <Flex flexGrow={1} px="2rem">
             <Text fontSize="2rem">{cartItem.itemQuantity}</Text>
           </Flex>
-          <IconButton aria-label="button" icon={<AddIcon boxSize={4} />} />
+          <IconButton
+            aria-label="button"
+            onClick={() => handleClick('+')}
+            icon={<AddIcon boxSize={4} />}
+          />
         </Flex>
       </VStack>
     </HStack>

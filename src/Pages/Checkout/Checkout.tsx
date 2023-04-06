@@ -23,6 +23,9 @@ function Checkout() {
           })}
         </VStack>
       </Flex>
+      <Flex flexGrow="1" height="100%">
+        <Heading>Order Details:</Heading>
+      </Flex>
     </Flex>
   );
 }

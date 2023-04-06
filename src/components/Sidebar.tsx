@@ -54,7 +54,7 @@ function Sidebar({
         colorScheme="green"
         width="100%"
         onClick={() => {
-          navigate('/');
+          navigate('/checkout');
           onClose();
         }}
       >

@@ -6,6 +6,7 @@ import SignIn from './Pages/SignIn/SignIn';
 import Products from './Pages/Products/Products';
 import Contact from './Pages/Contact/Contact';
 import UnknownPage from './Pages/404/UnknownPage';
+import Checkout from './Pages/Checkout/Checkout';
 
 function ApplicationRoutes() {
   return (
@@ -15,6 +16,7 @@ function ApplicationRoutes() {
       <Route path="/signIn" element={<SignIn />} />
       <Route path="/products" element={<Products />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/checkout" element={<Checkout />} />
       <Route path="*" element={<UnknownPage />} />
     </Routes>
   );

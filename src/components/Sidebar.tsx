@@ -14,6 +14,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import SidebarContent from './SidebarContent';
 import { AuthContext } from './AccountContext';
+import { UserCartContext } from './CartContext';
 
 function Sidebar({
   isOpen,
@@ -25,7 +26,43 @@ function Sidebar({
   btnRef: React.RefObject<HTMLButtonElement>;
 }) {
   const { user } = useContext(AuthContext);
+  const { cart } = useContext(UserCartContext);
   const navigate = useNavigate();
+
+  let mainButton;
+  if (!user) {
+    mainButton = (
+      <Button
+        fontSize="1.5rem"
+        padding="1.5rem"
+        colorScheme="green"
+        width="100%"
+        onClick={() => {
+          navigate('/signIn');
+          onClose();
+        }}
+      >
+        Login
+      </Button>
+    );
+  } else {
+    mainButton = (
+      <Button
+        isDisabled={cart?.length === 0}
+        fontSize="1.5rem"
+        padding="1.5rem"
+        colorScheme="green"
+        width="100%"
+        onClick={() => {
+          navigate('/');
+          onClose();
+        }}
+      >
+        Checkout
+      </Button>
+    );
+  }
+
   return (
     <Drawer
       isOpen={isOpen}
@@ -44,7 +81,7 @@ function Sidebar({
 
         <DrawerFooter alignItems="center">
           <Flex m="auto" flexDir="column" width="60%" gap="0.5rem">
-            {user && (
+            {!user && (
               <Text textAlign="center">
                 *You aren't currently logged in. Log in to save your cart and
                 checkout!
@@ -60,18 +97,7 @@ function Sidebar({
             >
               Cancel
             </Button>
-            <Button
-              fontSize="1.5rem"
-              padding="1.5rem"
-              colorScheme="green"
-              width="100%"
-              onClick={() => {
-                navigate('/signIn');
-                onClose();
-              }}
-            >
-              Login
-            </Button>
+            {mainButton}
           </Flex>
         </DrawerFooter>
       </DrawerContent>

@@ -130,6 +130,20 @@ export type UserRegisterInput = {
   password: Scalars['String'];
 };
 
+export type FetchSessionMutationVariables = Exact<{
+  input: SessionCheckInput;
+}>;
+
+export type FetchSessionMutation = {
+  __typename?: 'Mutation';
+  checkForSession:
+    | { __typename: 'Error'; message: string }
+    | {
+        __typename: 'MutationCheckForSessionSuccess';
+        data: { __typename?: 'User'; email: string; id: string; token: string };
+      };
+};
+
 export type FetchShopItemsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchShopItemsQuery = {
@@ -173,6 +187,66 @@ export type LogInMutation = {
       };
 };
 
+export const FetchSessionDocument = gql`
+  mutation fetchSession($input: SessionCheckInput!) {
+    checkForSession(input: $input) {
+      __typename
+      ... on Error {
+        message
+      }
+      ... on MutationCheckForSessionSuccess {
+        data {
+          email
+          id
+          token
+        }
+      }
+    }
+  }
+`;
+export type FetchSessionMutationFn = Apollo.MutationFunction<
+  FetchSessionMutation,
+  FetchSessionMutationVariables
+>;
+
+/**
+ * __useFetchSessionMutation__
+ *
+ * To run a mutation, you first call `useFetchSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFetchSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [fetchSessionMutation, { data, loading, error }] = useFetchSessionMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFetchSessionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    FetchSessionMutation,
+    FetchSessionMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    FetchSessionMutation,
+    FetchSessionMutationVariables
+  >(FetchSessionDocument, options);
+}
+export type FetchSessionMutationHookResult = ReturnType<
+  typeof useFetchSessionMutation
+>;
+export type FetchSessionMutationResult =
+  Apollo.MutationResult<FetchSessionMutation>;
+export type FetchSessionMutationOptions = Apollo.BaseMutationOptions<
+  FetchSessionMutation,
+  FetchSessionMutationVariables
+>;
 export const FetchShopItemsDocument = gql`
   query FetchShopItems {
     allItems {

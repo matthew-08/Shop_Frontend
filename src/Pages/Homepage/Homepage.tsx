@@ -3,6 +3,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { v4 as uuid } from 'uuid';
 import { Navigation } from 'swiper';
+import { useNavigate } from 'react-router-dom';
 import CARO_IMAGES from '../../utils/carouselImages';
 import wave from './wave.svg';
 
@@ -10,6 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 function Homepage() {
+  const navigate = useNavigate();
   const carouselImages = Object.values(CARO_IMAGES);
   return (
     <Flex flexDir="column" overflow="hidden" position="relative">
@@ -37,6 +39,7 @@ function Homepage() {
             }}
             fontSize="2.5rem"
             borderRadius="40px"
+            onClick={() => navigate('/products')}
           >
             Shop now!
           </Button>

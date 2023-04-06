@@ -35,7 +35,7 @@ function Register() {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     setError,
   } = useForm<RegisterScehma>({
     resolver: yupResolver(registerSchema),
@@ -60,9 +60,6 @@ function Register() {
     }
   }
   const isInputError = (input: keyof RegisterScehma) => input in errors;
-  if (user) {
-    return navigate('/');
-  }
   return (
     <VStack
       as="form"
@@ -109,6 +106,7 @@ function Register() {
         padding="1.4rem"
         type="submit"
         isLoading={loading}
+        isDisabled={!isDirty}
       >
         Submit
       </Button>

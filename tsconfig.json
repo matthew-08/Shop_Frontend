@@ -19,6 +19,7 @@
   "include": [
     "src",
     ".eslintrc.cjs",
-  ],
+    "jest.config.ts"
+  , "setup_test.ts"  ],
   "references": [{ "path": "./tsconfig.node.json" }],
 }

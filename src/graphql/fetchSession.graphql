@@ -1,4 +1,4 @@
-mutation ($input: SessionCheckInput!) {
+mutation fetchSession($input: SessionCheckInput!) {
   checkForSession(input: $input) {
     __typename
     ... on Error {

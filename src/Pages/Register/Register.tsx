@@ -56,7 +56,12 @@ function Register() {
   if (data) {
     if (data.register.__typename === 'MutationRegisterSuccess') {
       const { token } = data.register.data;
+      setUser({
+        email: data.register.data.email,
+        id: data.register.data.id,
+      });
       localStorage.setItem('token', token);
+      navigate('/products');
     }
   }
   const isInputError = (input: keyof RegisterScehma) => input in errors;

@@ -20,57 +20,39 @@ function CheckoutForm() {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Flex as="form" flexDir="column" width="100%">
-      <Flex onClick={onToggle} width="100%" align="center">
-        <Circle
-          size="70px"
-          borderColor="blackAlpha.800"
-          fontSize="2rem"
-          border="3px solid"
-        >
-          1
-        </Circle>
-        <Heading ml="1rem">Personal Details</Heading>
-      </Flex>
-      <Collapse in={isOpen} animateOpacity>
-        <Box>
-          <VStack>
-            <FormControl>
-              <FormLabel>First Name</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Last Name</FormLabel>
-              <Input type="email" />
-            </FormControl>
-          </VStack>
-        </Box>
-      </Collapse>
-      <Flex onClick={onToggle} width="100%" align="center">
-        <Circle
-          size="70px"
-          borderColor="blackAlpha.800"
-          fontSize="2rem"
-          border="3px solid"
-        >
-          1
-        </Circle>
-        <Heading ml="1rem">Personal Details</Heading>
-      </Flex>
-      <Collapse in={isOpen} animateOpacity>
-        <Box>
-          <VStack>
-            <FormControl>
-              <FormLabel>First Name</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Last Name</FormLabel>
-              <Input type="email" />
-            </FormControl>
-          </VStack>
-        </Box>
-      </Collapse>
+    <Flex as="form" flexDir="column" width="100%" px="2rem" gap="1rem">
+      <Heading>Delivery Information</Heading>
+      <HStack>
+        <FormControl>
+          <FormLabel>First Name</FormLabel>
+          <Input type="text" />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Last Name</FormLabel>
+          <Input type="text" />
+        </FormControl>
+      </HStack>
+      <HStack>
+        <FormControl>
+          <FormLabel>Address</FormLabel>
+          <Input type="Text" />
+        </FormControl>
+        <FormControl>
+          <FormLabel>City</FormLabel>
+          <Input type="Text" />
+        </FormControl>
+      </HStack>
+      <HStack>
+        <FormControl>
+          <FormLabel>Zip Code</FormLabel>
+          <Input type="Text" />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Phone Number</FormLabel>
+          <Input type="Text" />
+        </FormControl>
+      </HStack>
+      <Heading>Payment Information</Heading>
     </Flex>
   );
 }

@@ -23,6 +23,11 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AddToCartInput = {
+  itemToAdd: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type CartItem = {
   __typename?: 'CartItem';
   cartSpecificId: Scalars['ID'];
@@ -35,6 +40,11 @@ export type Error = {
   message: Scalars['String'];
 };
 
+export type IncrementCartItemInput = {
+  cartId: Scalars['String'];
+  itemId: Scalars['String'];
+};
+
 export type LoginType = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -45,13 +55,13 @@ export type Mutation = {
   addToCart: UserCart;
   checkForSession: MutationCheckForSessionResult;
   deleteFromCart: UserCart;
+  incrementCartItem: CartItem;
   login: MutationLoginResult;
   register: MutationRegisterResult;
 };
 
 export type MutationAddToCartArgs = {
-  itemToAdd: Scalars['String'];
-  userId: Scalars['String'];
+  input: AddToCartInput;
 };
 
 export type MutationCheckForSessionArgs = {
@@ -61,6 +71,10 @@ export type MutationCheckForSessionArgs = {
 export type MutationDeleteFromCartArgs = {
   cartId: Scalars['String'];
   itemId: Scalars['String'];
+};
+
+export type MutationIncrementCartItemArgs = {
+  input: IncrementCartItemInput;
 };
 
 export type MutationLoginArgs = {
@@ -156,7 +170,9 @@ export type UserRegisterInput = {
   password: Scalars['String'];
 };
 
-export type AddToCartMutationVariables = Exact<{ [key: string]: never }>;
+export type AddToCartMutationVariables = Exact<{
+  input: AddToCartInput;
+}>;
 
 export type AddToCartMutation = {
   __typename?: 'Mutation';
@@ -165,7 +181,6 @@ export type AddToCartMutation = {
     id: string;
     userItems: Array<{
       __typename?: 'CartItem';
-      cartSpecificId: string;
       item: {
         __typename?: 'ShopItem';
         itemDescription: string;
@@ -177,6 +192,15 @@ export type AddToCartMutation = {
       };
     }>;
   };
+};
+
+export type IncrementItemMutationVariables = Exact<{
+  input: IncrementCartItemInput;
+}>;
+
+export type IncrementItemMutation = {
+  __typename?: 'Mutation';
+  incrementCartItem: { __typename?: 'CartItem'; cartSpecificId: string };
 };
 
 export type FetchSessionMutationVariables = Exact<{
@@ -237,11 +261,10 @@ export type LogInMutation = {
 };
 
 export const AddToCartDocument = gql`
-  mutation addToCart {
-    addToCart(itemToAdd: "String", userId: "String") {
+  mutation AddToCart($input: AddToCartInput!) {
+    addToCart(input: $input) {
       id
       userItems {
-        cartSpecificId
         item {
           itemDescription
           itemId
@@ -272,6 +295,7 @@ export type AddToCartMutationFn = Apollo.MutationFunction<
  * @example
  * const [addToCartMutation, { data, loading, error }] = useAddToCartMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -294,6 +318,56 @@ export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
 export type AddToCartMutationOptions = Apollo.BaseMutationOptions<
   AddToCartMutation,
   AddToCartMutationVariables
+>;
+export const IncrementItemDocument = gql`
+  mutation IncrementItem($input: IncrementCartItemInput!) {
+    incrementCartItem(input: $input) {
+      cartSpecificId
+    }
+  }
+`;
+export type IncrementItemMutationFn = Apollo.MutationFunction<
+  IncrementItemMutation,
+  IncrementItemMutationVariables
+>;
+
+/**
+ * __useIncrementItemMutation__
+ *
+ * To run a mutation, you first call `useIncrementItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useIncrementItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [incrementItemMutation, { data, loading, error }] = useIncrementItemMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useIncrementItemMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    IncrementItemMutation,
+    IncrementItemMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    IncrementItemMutation,
+    IncrementItemMutationVariables
+  >(IncrementItemDocument, options);
+}
+export type IncrementItemMutationHookResult = ReturnType<
+  typeof useIncrementItemMutation
+>;
+export type IncrementItemMutationResult =
+  Apollo.MutationResult<IncrementItemMutation>;
+export type IncrementItemMutationOptions = Apollo.BaseMutationOptions<
+  IncrementItemMutation,
+  IncrementItemMutationVariables
 >;
 export const FetchSessionDocument = gql`
   mutation fetchSession($input: SessionCheckInput!) {

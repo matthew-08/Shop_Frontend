@@ -1,5 +1,9 @@
 import { createContext, useState, ReactNode, useContext } from 'react';
-import { ShopItem, useAddToCartMutation } from '../generated/graphql';
+import {
+  ShopItem,
+  useAddToCartMutation,
+  useIncrementItemMutation,
+} from '../generated/graphql';
 import { CartItem, CartContextType } from '../types';
 import { AuthContext } from './AccountContext';
 
@@ -13,9 +17,11 @@ export const UserCartContext = createContext<CartContextType>({
 
 function CartContext({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartId, setCartId] = useState('');
   const { user } = useContext(AuthContext);
-  const [addToCart, { results, loading, data }] = useAddToCartMutation();
-  const handleAddToCart = (item: ShopItem) => {
+  const [addToCart, { loading, data, error }] = useAddToCartMutation();
+  const [incrementItem] = useIncrementItemMutation();
+  const handleAddToCart = async (item: ShopItem) => {
     const itemExists = cart.find((i) => i.itemId === item.itemId);
     if (itemExists) {
       setCart(
@@ -27,7 +33,16 @@ function CartContext({ children }: { children: ReactNode }) {
           return i;
         })
       );
-      if (user) {
+      if (user && user.id) {
+        incrementItem({
+          variables: {
+            input: {
+              cartId,
+              itemId: item.itemId,
+            },
+          },
+        });
+        console.log(`sent to ${user.id}`);
       }
     } else {
       setCart([
@@ -37,6 +52,20 @@ function CartContext({ children }: { children: ReactNode }) {
           itemQuantity: 1,
         },
       ]);
+      if (user && user.id) {
+        await addToCart({
+          variables: {
+            input: {
+              itemToAdd: item.itemId,
+              userId: user.id,
+            },
+          },
+        }).then((r) => {
+          if (data) {
+            setCartId(data.addToCart.id);
+          }
+        });
+      }
     }
   };
   const handleRemoveFromCart = (cartItem: CartItem) => {

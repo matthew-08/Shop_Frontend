@@ -1,13 +1,7 @@
-input AddToCartInput {
-  itemToAdd: String
-  userId: String
-}
-
-mutation addToCart($input: AddToCartInput) {
+mutation AddToCart($input: AddToCartInput!) {
   addToCart(input: $input) {
     id
     userItems {
-      cartSpecificId
       item {
         itemDescription
         itemId
@@ -17,5 +11,11 @@ mutation addToCart($input: AddToCartInput) {
         quantity
       }
     }
+  }
+}
+
+mutation IncrementItem($input: IncrementCartItemInput!) {
+  incrementCartItem(input: $input) {
+    cartSpecificId
   }
 }

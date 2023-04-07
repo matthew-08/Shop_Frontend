@@ -16,22 +16,29 @@ function AccountContext({ children }: { children: ReactNode }) {
   });
   const [mutateFunction, { data, loading, error }] = useFetchSessionMutation();
   useEffect(() => {
-    const token = getToken();
-    if (token) {
-      mutateFunction({
-        variables: {
-          input: {
-            token,
+    const checkForUser = async () => {
+      const token = getToken();
+      if (token) {
+        await mutateFunction({
+          variables: {
+            input: {
+              token,
+            },
           },
-        },
-      });
-    }
+        });
+      }
+    };
+    checkForUser();
   }, []);
-  if (data) {
-    if (data.checkForSession.__typename === 'MutationCheckForSessionSuccess') {
-      setUser(data.checkForSession.data);
+  useEffect(() => {
+    if (data) {
+      if (
+        data.checkForSession.__typename === 'MutationCheckForSessionSuccess'
+      ) {
+        setUser(data.checkForSession.data);
+      }
     }
-  }
+  }, [data]);
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}

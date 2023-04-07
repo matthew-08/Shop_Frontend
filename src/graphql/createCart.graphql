@@ -1,0 +1,20 @@
+input AddToCartInput {
+  itemToAdd: String
+}
+
+mutation addToCart {
+  addToCart(itemToAdd: "String", userId: "String") {
+    id
+    userItems {
+      cartSpecificId
+      item {
+        itemDescription
+        itemId
+        itemImage
+        itemName
+        itemPrice
+        quantity
+      }
+    }
+  }
+}

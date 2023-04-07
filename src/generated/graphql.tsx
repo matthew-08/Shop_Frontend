@@ -23,6 +23,13 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type CartItem = {
+  __typename?: 'CartItem';
+  cartSpecificId: Scalars['ID'];
+  item: ShopItem;
+  t: Scalars['Boolean'];
+};
+
 export type Error = {
   __typename?: 'Error';
   message: Scalars['String'];
@@ -35,13 +42,25 @@ export type LoginType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addToCart: UserCart;
   checkForSession: MutationCheckForSessionResult;
+  deleteFromCart: UserCart;
   login: MutationLoginResult;
   register: MutationRegisterResult;
 };
 
+export type MutationAddToCartArgs = {
+  itemToAdd: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type MutationCheckForSessionArgs = {
   input: SessionCheckInput;
+};
+
+export type MutationDeleteFromCartArgs = {
+  cartId: Scalars['String'];
+  itemId: Scalars['String'];
 };
 
 export type MutationLoginArgs = {
@@ -120,14 +139,44 @@ export type ShopItem = {
 /** Object type representing a user */
 export type User = {
   __typename?: 'User';
+  cart: Array<UserCart>;
   email: Scalars['String'];
   id: Scalars['ID'];
   token: Scalars['String'];
 };
 
+export type UserCart = {
+  __typename?: 'UserCart';
+  id: Scalars['ID'];
+  userItems: Array<CartItem>;
+};
+
 export type UserRegisterInput = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type AddToCartMutationVariables = Exact<{ [key: string]: never }>;
+
+export type AddToCartMutation = {
+  __typename?: 'Mutation';
+  addToCart: {
+    __typename?: 'UserCart';
+    id: string;
+    userItems: Array<{
+      __typename?: 'CartItem';
+      cartSpecificId: string;
+      item: {
+        __typename?: 'ShopItem';
+        itemDescription: string;
+        itemId: string;
+        itemImage: string;
+        itemName: string;
+        itemPrice: number;
+        quantity: number;
+      };
+    }>;
+  };
 };
 
 export type FetchSessionMutationVariables = Exact<{
@@ -187,6 +236,65 @@ export type LogInMutation = {
       };
 };
 
+export const AddToCartDocument = gql`
+  mutation addToCart {
+    addToCart(itemToAdd: "String", userId: "String") {
+      id
+      userItems {
+        cartSpecificId
+        item {
+          itemDescription
+          itemId
+          itemImage
+          itemName
+          itemPrice
+          quantity
+        }
+      }
+    }
+  }
+`;
+export type AddToCartMutationFn = Apollo.MutationFunction<
+  AddToCartMutation,
+  AddToCartMutationVariables
+>;
+
+/**
+ * __useAddToCartMutation__
+ *
+ * To run a mutation, you first call `useAddToCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToCartMutation, { data, loading, error }] = useAddToCartMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAddToCartMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddToCartMutation,
+    AddToCartMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(
+    AddToCartDocument,
+    options
+  );
+}
+export type AddToCartMutationHookResult = ReturnType<
+  typeof useAddToCartMutation
+>;
+export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
+export type AddToCartMutationOptions = Apollo.BaseMutationOptions<
+  AddToCartMutation,
+  AddToCartMutationVariables
+>;
 export const FetchSessionDocument = gql`
   mutation fetchSession($input: SessionCheckInput!) {
     checkForSession(input: $input) {

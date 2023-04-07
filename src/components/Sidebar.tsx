@@ -30,7 +30,7 @@ function Sidebar({
   const navigate = useNavigate();
 
   let mainButton;
-  if (!user) {
+  if (!user?.email) {
     mainButton = (
       <Button
         fontSize="1.5rem"

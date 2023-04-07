@@ -30,7 +30,6 @@ function AccountContext({ children }: { children: ReactNode }) {
   if (data) {
     if (data.checkForSession.__typename === 'MutationCheckForSessionSuccess') {
       setUser(data.checkForSession.data);
-      console.log(user);
     }
   }
   return (

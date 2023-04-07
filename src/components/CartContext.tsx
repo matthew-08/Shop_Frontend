@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useContext } from 'react';
-import { ShopItem } from '../generated/graphql';
+import { ShopItem, useAddToCartMutation } from '../generated/graphql';
 import { CartItem, CartContextType } from '../types';
 import { AuthContext } from './AccountContext';
 
@@ -14,6 +14,7 @@ export const UserCartContext = createContext<CartContextType>({
 function CartContext({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const { user } = useContext(AuthContext);
+  const [addToCart, { results, loading, data }] = useAddToCartMutation();
   const handleAddToCart = (item: ShopItem) => {
     const itemExists = cart.find((i) => i.itemId === item.itemId);
     if (itemExists) {
@@ -26,6 +27,8 @@ function CartContext({ children }: { children: ReactNode }) {
           return i;
         })
       );
+      if (user) {
+      }
     } else {
       setCart([
         ...cart,

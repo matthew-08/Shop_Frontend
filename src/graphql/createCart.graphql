@@ -1,9 +1,10 @@
 input AddToCartInput {
   itemToAdd: String
+  userId: String
 }
 
-mutation addToCart {
-  addToCart(itemToAdd: "String", userId: "String") {
+mutation addToCart($input: AddToCartInput) {
+  addToCart(input: $input) {
     id
     userItems {
       cartSpecificId

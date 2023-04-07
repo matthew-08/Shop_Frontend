@@ -7,6 +7,7 @@ export const UserCartContext = createContext<CartContextType>({
   id: null,
   handleAddToCart: () => null,
   handleRemoveFromCart: () => null,
+  total: () => 0,
 });
 
 function CartContext({ children }: { children: ReactNode }) {
@@ -49,7 +50,7 @@ function CartContext({ children }: { children: ReactNode }) {
       );
     }
   };
-  const cartTotal = () => {
+  const total = () => {
     if (cart.length === 0) {
       return 0;
     }
@@ -62,7 +63,7 @@ function CartContext({ children }: { children: ReactNode }) {
   };
   return (
     <UserCartContext.Provider
-      value={{ cart, handleAddToCart, handleRemoveFromCart, cartTotal }}
+      value={{ cart, handleAddToCart, handleRemoveFromCart, total }}
     >
       {children}
     </UserCartContext.Provider>

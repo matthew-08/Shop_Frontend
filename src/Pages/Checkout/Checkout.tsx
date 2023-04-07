@@ -1,4 +1,4 @@
-import { Flex, Heading, VStack } from '@chakra-ui/react';
+import { Flex, Heading, VStack, Text } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { v4 as uuid } from 'uuid';
 import { UserCartContext } from '../../components/CartContext';
@@ -6,7 +6,7 @@ import CartProduct from '../../components/CartProduct';
 import CheckoutForm from './CheckoutForm';
 
 function Checkout() {
-  const { cart } = useContext(UserCartContext);
+  const { cart, total } = useContext(UserCartContext);
   return (
     <Flex minW="100%" px="4rem" py="1rem" overflowX="hidden" minH="80%">
       <Flex
@@ -18,11 +18,43 @@ function Checkout() {
         padding="1rem"
       >
         <Heading fontSize="3rem">Cart:</Heading>
-        <VStack overflow="auto" maxHeight="800px">
+        <VStack overflow="auto" maxHeight="500px" minH="500px">
           {cart?.map((item) => {
             return <CartProduct cartItem={item} key={uuid()} />;
           })}
         </VStack>
+        <Flex
+          mt="auto"
+          fontSize="1.5rem"
+          flexDir="column"
+          align="center"
+          width="50%"
+        >
+          <Flex
+            width="100%"
+            borderBottom="2px solid"
+            borderColor="gray.300"
+            mb="0.4rem"
+          >
+            <Text>Summary:</Text>
+          </Flex>
+          <Flex justifyContent="space-between" width="100%">
+            <Text>Subtotal:</Text>
+            <Text> ${total()} </Text>
+          </Flex>
+          <Flex justifyContent="space-between" width="100%">
+            <Text>Shipping:</Text>
+            <Text> FREE </Text>
+          </Flex>
+          <Flex justifyContent="space-between" width="100%">
+            <Text>Taxes and fees:</Text>
+            <Text> ${Math.round((total() * 0.7) / 100)} </Text>
+          </Flex>
+          <Flex justifyContent="space-between" width="100%">
+            <Text>Total:</Text>
+            <Text> ${Math.round((total() * 0.7) / 100) + total()} </Text>
+          </Flex>
+        </Flex>
       </Flex>
       <Flex
         flexGrow="1"

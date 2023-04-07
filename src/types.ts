@@ -31,4 +31,5 @@ export interface CartContextType {
   id: string | null;
   handleAddToCart: (item: ShopItem) => void;
   handleRemoveFromCart: (item: CartItem) => void;
+  total: () => number;
 }

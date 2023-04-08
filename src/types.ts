@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ShopItem } from './generated/graphql';
+import { FetchSessionMutation, ShopItem } from './generated/graphql';
 
 // AUTH
 export interface FormState {
@@ -19,6 +19,7 @@ export interface User {
 export interface AuthContextType {
   user: null | User;
   setUser: Dispatch<SetStateAction<User>>;
+  accountFetchData: FetchSessionMutation | null | undefined;
 }
 
 // CART

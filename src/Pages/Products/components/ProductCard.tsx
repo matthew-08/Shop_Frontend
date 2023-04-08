@@ -10,12 +10,7 @@ const MemoProductCard = memo(function ProductCard({
   productInfo: ShopItem;
 }) {
   const { user } = useContext(AuthContext);
-  const { value } = useContext(UserCartContext);
-
-  useEffect(() => {
-    console.log('rerender of product card');
-  }, [value]);
-  console.log('re-render');
+  const { handleAddToCart } = useContext(UserCartContext);
 
   return (
     <VStack
@@ -50,7 +45,7 @@ const MemoProductCard = memo(function ProductCard({
             padding="1.5rem"
             py="2rem"
             color="white"
-            onClick={() => value.handleAddToCart(productInfo)}
+            onClick={() => handleAddToCart(productInfo)}
             _hover={{
               backgroundColor: 'blackAlpha.700',
             }}

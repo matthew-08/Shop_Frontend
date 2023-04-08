@@ -1,18 +1,14 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useFetchSessionMutation } from '../generated/graphql';
 import { User, AuthContextType } from '../types';
 import getToken from '../utils/getToken';
+import type { FetchSessionMutation } from '../generated/graphql';
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   setUser: () => null,
+  accountFetchData: null,
 });
 
 function AccountContext({ children }: { children: ReactNode }) {
@@ -20,7 +16,8 @@ function AccountContext({ children }: { children: ReactNode }) {
     id: null,
     email: null,
   });
-  const [mutateFunction, { data, loading, error }] = useFetchSessionMutation();
+  const [mutateFunction, { data: accountFetchData, loading, error }] =
+    useFetchSessionMutation();
   useEffect(() => {
     const checkForUser = async () => {
       const token = getToken();
@@ -37,21 +34,22 @@ function AccountContext({ children }: { children: ReactNode }) {
     checkForUser();
   }, []);
   useEffect(() => {
-    if (data) {
+    if (accountFetchData) {
       if (
-        data.checkForSession.__typename === 'MutationCheckForSessionSuccess'
+        accountFetchData.checkForSession.__typename ===
+        'MutationCheckForSessionSuccess'
       ) {
-        const { email, cart, token, id } = data.checkForSession.data;
-
+        const { email, cart, token, id } =
+          accountFetchData.checkForSession.data;
         setUser({
           email,
           id,
         });
       }
     }
-  }, [data]);
+  }, [accountFetchData]);
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, accountFetchData }}>
       {children}
     </AuthContext.Provider>
   );

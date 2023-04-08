@@ -40,8 +40,10 @@ function CartContext({ children }: { children: ReactNode }) {
       const existingCart = accountFetchData.checkForSession.data.cart;
       console.log(existingCart);
       existingCart.userItems.map((item) => {
+        const { cartItemQuantity } = item;
         const nestedItem = item.item;
         delete nestedItem.__typename;
+        nestedItem.itemQuantity = cartItemQuantity;
         setCart([...cart, nestedItem]);
         return item;
       });

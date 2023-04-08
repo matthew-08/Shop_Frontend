@@ -242,7 +242,28 @@ export type FetchSessionMutation = {
     | { __typename: 'Error'; message: string }
     | {
         __typename: 'MutationCheckForSessionSuccess';
-        data: { __typename?: 'User'; email: string; id: string; token: string };
+        data: {
+          __typename?: 'User';
+          email: string;
+          id: string;
+          token: string;
+          cart: Array<{
+            __typename?: 'UserCart';
+            id: string;
+            userItems: Array<{
+              __typename?: 'CartItem';
+              item: {
+                __typename?: 'ShopItem';
+                itemDescription: string;
+                itemId: string;
+                itemImage: string;
+                itemName: string;
+                itemPrice: number;
+                quantity: number;
+              };
+            }>;
+          }>;
+        };
       };
 };
 
@@ -499,6 +520,19 @@ export const FetchSessionDocument = gql`
           email
           id
           token
+          cart {
+            id
+            userItems {
+              item {
+                itemDescription
+                itemId
+                itemImage
+                itemName
+                itemPrice
+                quantity
+              }
+            }
+          }
         }
       }
     }

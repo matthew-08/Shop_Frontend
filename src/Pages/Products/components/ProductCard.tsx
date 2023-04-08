@@ -1,12 +1,16 @@
 import { Container, Flex, Image, VStack, Text, Button } from '@chakra-ui/react';
-import { useContext } from 'react';
-import type { ShopItem } from '../../../generated/graphql';
+import { useContext, useEffect } from 'react';
+import { ShopItem, useFetchShopItemsQuery } from '../../../generated/graphql';
 import { AuthContext } from '../../../components/AccountContext';
 import { UserCartContext } from '../../../components/CartContext';
 
 function ProductCard({ productInfo }: { productInfo: ShopItem }) {
   const { user } = useContext(AuthContext);
-  const { handleAddToCart } = useContext(UserCartContext);
+  const { value } = useContext(UserCartContext);
+
+  useEffect(() => {
+    console.log('rerender of product card');
+  }, [value]);
 
   return (
     <VStack
@@ -41,7 +45,7 @@ function ProductCard({ productInfo }: { productInfo: ShopItem }) {
             padding="1.5rem"
             py="2rem"
             color="white"
-            onClick={() => handleAddToCart(productInfo)}
+            onClick={() => value.handleAddToCart(productInfo)}
             _hover={{
               backgroundColor: 'blackAlpha.700',
             }}

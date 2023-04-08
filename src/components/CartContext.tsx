@@ -1,4 +1,13 @@
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { useReducedMotion } from 'framer-motion';
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useMemo,
+  useCallback,
+  useEffect,
+} from 'react';
 import {
   ShopItem,
   useAddToCartMutation,
@@ -14,6 +23,7 @@ export const UserCartContext = createContext<CartContextType>({
   handleAddToCart: () => null,
   handleRemoveFromCart: () => null,
   total: () => 0,
+  setCart: () => null,
 });
 
 function CartContext({ children }: { children: ReactNode }) {
@@ -23,7 +33,7 @@ function CartContext({ children }: { children: ReactNode }) {
   const [addToCart, { loading, data, error }] = useAddToCartMutation();
   const [incrementItem] = useIncrementItemMutation();
 
-  const handleAddToCart = async (item: ShopItem) => {
+  const handleAddToCart = useCallback(async (item: ShopItem) => {
     const itemExists = cart.find((i) => i.itemId === item.itemId);
     if (itemExists) {
       setCart(
@@ -69,7 +79,55 @@ function CartContext({ children }: { children: ReactNode }) {
         });
       }
     }
-  };
+  }, []);
+
+  /* const handleAddToCart = async (item: ShopItem) => {
+    const itemExists = cart.find((i) => i.itemId === item.itemId);
+    if (itemExists) {
+      setCart(
+        cart.map((i) => {
+          if (i.itemId === item.itemId) {
+            const updateQuanaity = i.itemQuantity + 1;
+            return { ...i, itemQuantity: updateQuanaity };
+          }
+          return i;
+        })
+      );
+      if (user && user.id) {
+        incrementItem({
+          variables: {
+            input: {
+              cartId,
+              itemId: item.itemId,
+            },
+          },
+        });
+        console.log(`sent to ${user.id}`);
+      }
+    } else {
+      setCart([
+        ...cart,
+        {
+          ...item,
+          itemQuantity: 1,
+        },
+      ]);
+      if (user && user.id) {
+        await addToCart({
+          variables: {
+            input: {
+              itemToAdd: item.itemId,
+              userId: user.id,
+            },
+          },
+        }).then((r) => {
+          if (data) {
+            setCartId(data.addToCart.id);
+          }
+        });
+      }
+    }
+  }; */
   const handleRemoveFromCart = (cartItem: CartItem) => {
     const itemToDelete = cart.find((item) => item.itemId === cartItem.itemId);
     if (itemToDelete?.itemQuantity === 1) {
@@ -86,20 +144,28 @@ function CartContext({ children }: { children: ReactNode }) {
       );
     }
   };
-  const total = () => {
+  const total = useCallback(() => {
     if (cart.length === 0) {
       return 0;
     }
-    const total = cart.reduce((acc, item) => {
+    const t = cart.reduce((acc, item) => {
       // eslint-disable-next-line no-param-reassign
       acc += item.itemPrice * item.itemQuantity;
       return acc;
     }, 0);
-    return total;
-  };
+    return t;
+  }, [cart]);
+
+  const value = useMemo(
+    () => ({
+      total,
+      handleAddToCart,
+    }),
+    [total, handleAddToCart]
+  );
   return (
     <UserCartContext.Provider
-      value={{ cart, handleAddToCart, handleRemoveFromCart, total }}
+      value={{ cart, value, handleRemoveFromCart, total, setCart }}
     >
       {children}
     </UserCartContext.Provider>

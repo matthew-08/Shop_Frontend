@@ -1,5 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useFetchSessionMutation } from '../generated/graphql';
 import { User, AuthContextType } from '../types';
 import getToken from '../utils/getToken';
@@ -35,7 +41,12 @@ function AccountContext({ children }: { children: ReactNode }) {
       if (
         data.checkForSession.__typename === 'MutationCheckForSessionSuccess'
       ) {
-        setUser(data.checkForSession.data);
+        const { email, cart, token, id } = data.checkForSession.data;
+
+        setUser({
+          email,
+          id,
+        });
       }
     }
   }, [data]);

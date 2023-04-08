@@ -1,16 +1,21 @@
 import { Container, Flex, Image, VStack, Text, Button } from '@chakra-ui/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, memo } from 'react';
 import { ShopItem, useFetchShopItemsQuery } from '../../../generated/graphql';
 import { AuthContext } from '../../../components/AccountContext';
 import { UserCartContext } from '../../../components/CartContext';
 
-function ProductCard({ productInfo }: { productInfo: ShopItem }) {
+const MemoProductCard = memo(function ProductCard({
+  productInfo,
+}: {
+  productInfo: ShopItem;
+}) {
   const { user } = useContext(AuthContext);
   const { value } = useContext(UserCartContext);
 
   useEffect(() => {
     console.log('rerender of product card');
   }, [value]);
+  console.log('re-render');
 
   return (
     <VStack
@@ -57,6 +62,6 @@ function ProductCard({ productInfo }: { productInfo: ShopItem }) {
       </VStack>
     </VStack>
   );
-}
+});
 
-export default ProductCard;
+export default MemoProductCard;

@@ -1,8 +1,9 @@
 import { SimpleGrid, Flex, useMediaQuery } from '@chakra-ui/react';
 import { v4 as uuid } from 'uuid';
 import { Audio } from 'react-loader-spinner';
-import { useFetchShopItemsQuery } from '../../generated/graphql';
-import ProductCard from './components/ProductCard';
+import { memo, useMemo } from 'react';
+import { ShopItem, useFetchShopItemsQuery } from '../../generated/graphql';
+import MemoProductCard from './components/ProductCard';
 
 function Products() {
   const { loading, data } = useFetchShopItemsQuery();
@@ -16,7 +17,7 @@ function Products() {
     );
   } else {
     products = data?.allItems.map((item) => {
-      return <ProductCard key={uuid()} productInfo={item} />;
+      return <MemoProductCard key={uuid()} productInfo={item} />;
     });
   }
   return (

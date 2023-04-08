@@ -158,10 +158,9 @@ function CartContext({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({
-      total,
       handleAddToCart,
     }),
-    [total, handleAddToCart]
+    [handleAddToCart]
   );
   return (
     <UserCartContext.Provider

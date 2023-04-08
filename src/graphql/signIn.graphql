@@ -20,7 +20,7 @@ mutation LogIn($LoginType: LoginType!) {
               itemImage
               itemName
               itemPrice
-              quantity
+              itemQuantity
             }
           }
         }

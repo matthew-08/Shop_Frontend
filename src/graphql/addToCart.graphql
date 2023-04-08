@@ -8,7 +8,7 @@ mutation AddToCart($input: AddToCartInput!) {
         itemImage
         itemName
         itemPrice
-        quantity
+        itemQuantity
       }
     }
   }

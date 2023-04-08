@@ -8,7 +8,7 @@ query FetchExistingCart($input: String!) {
         itemImage
         itemName
         itemPrice
-        quantity
+        itemQuantity
       }
     }
   }

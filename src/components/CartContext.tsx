@@ -37,8 +37,12 @@ function CartContext({ children }: { children: ReactNode }) {
       accountFetchData.checkForSession.__typename ===
         'MutationCheckForSessionSuccess'
     ) {
-      const existingCart = accountFetchData.checkForSession.data.cart[0].id;
-      console.log(existingCart);
+      const existingCart = accountFetchData.checkForSession.data.cart;
+      existingCart.map((item, index) => {
+        const nestedItem = item.userItems[index].item;
+        delete nestedItem.__typename;
+        setCart([...cart, nestedItem]);
+      });
     }
   }, [accountFetchData]);
   const handleAddToCart = async (item: ShopItem) => {

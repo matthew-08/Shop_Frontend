@@ -4,7 +4,7 @@ query FetchShopItems {
     itemImage
     itemName
     itemId
-    quantity
+    itemQuantity
     itemPrice
   }
 }

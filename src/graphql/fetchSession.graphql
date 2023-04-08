@@ -18,7 +18,7 @@ mutation fetchSession($input: SessionCheckInput!) {
               itemImage
               itemName
               itemPrice
-              quantity
+              itemQuantity
             }
           }
         }

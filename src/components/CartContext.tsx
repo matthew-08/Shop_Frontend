@@ -10,6 +10,7 @@ import {
 import {
   ShopItem,
   useAddToCartMutation,
+  useDeleteFromCartMutation,
   useIncrementItemMutation,
 } from '../generated/graphql';
 import { CartItem, CartContextType } from '../types';
@@ -29,6 +30,7 @@ function CartContext({ children }: { children: ReactNode }) {
   const [cartId, setCartId] = useState('');
   const { user, accountFetchData } = useContext(AuthContext);
   const [addToCart, { loading, data, error }] = useAddToCartMutation();
+  const [deleteFromCart] = useDeleteFromCartMutation();
   const [incrementItem] = useIncrementItemMutation();
 
   useEffect(() => {
@@ -37,16 +39,19 @@ function CartContext({ children }: { children: ReactNode }) {
       accountFetchData.checkForSession.__typename ===
         'MutationCheckForSessionSuccess'
     ) {
-      const existingCart = accountFetchData.checkForSession.data.cart;
+      const existingCart = accountFetchData.checkForSession.data.cart.userItems;
       console.log(existingCart);
-      existingCart.userItems.map((item) => {
+      const cleanCart = existingCart.map((item) => {
         const { cartItemQuantity } = item;
+        // eslint-disable-next-line no-param-reassign
+        delete item.__typename;
         const nestedItem = item.item;
         delete nestedItem.__typename;
         nestedItem.itemQuantity = cartItemQuantity;
-        setCart([...cart, nestedItem]);
-        return item;
+        return nestedItem;
       });
+      setCartId(accountFetchData.checkForSession.data.cart.id);
+      setCart(cleanCart);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountFetchData]);
@@ -111,6 +116,14 @@ function CartContext({ children }: { children: ReactNode }) {
           return c;
         })
       );
+    }
+    if (user && cart) {
+      deleteFromCart({
+        variables: {
+          cartId,
+          itemId: cartItem.itemId,
+        },
+      });
     }
   };
   const total = useCallback(() => {

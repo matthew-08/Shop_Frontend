@@ -12,6 +12,7 @@ mutation fetchSession($input: SessionCheckInput!) {
         cart {
           id
           userItems {
+            cartItemQuantity
             item {
               itemDescription
               itemId

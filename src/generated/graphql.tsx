@@ -30,6 +30,7 @@ export type AddToCartInput = {
 
 export type CartItem = {
   __typename?: 'CartItem';
+  cartItemQuantity: Scalars['Int'];
   cartSpecificId: Scalars['ID'];
   item: ShopItem;
   t: Scalars['Boolean'];
@@ -152,13 +153,13 @@ export type ShopItem = {
   itemImage: Scalars['String'];
   itemName: Scalars['String'];
   itemPrice: Scalars['Float'];
-  quantity: Scalars['Int'];
+  itemQuantity: Scalars['Int'];
 };
 
 /** Object type representing a user */
 export type User = {
   __typename?: 'User';
-  cart: Array<UserCart>;
+  cart: UserCart;
   email: Scalars['String'];
   id: Scalars['ID'];
   token: Scalars['String'];
@@ -193,7 +194,7 @@ export type AddToCartMutation = {
         itemImage: string;
         itemName: string;
         itemPrice: number;
-        quantity: number;
+        itemQuantity: number;
       };
     }>;
   };
@@ -226,7 +227,7 @@ export type FetchExistingCartQuery = {
         itemImage: string;
         itemName: string;
         itemPrice: number;
-        quantity: number;
+        itemQuantity: number;
       };
     }>;
   };
@@ -247,11 +248,12 @@ export type FetchSessionMutation = {
           email: string;
           id: string;
           token: string;
-          cart: Array<{
+          cart: {
             __typename?: 'UserCart';
             id: string;
             userItems: Array<{
               __typename?: 'CartItem';
+              cartItemQuantity: number;
               item: {
                 __typename?: 'ShopItem';
                 itemDescription: string;
@@ -259,10 +261,10 @@ export type FetchSessionMutation = {
                 itemImage: string;
                 itemName: string;
                 itemPrice: number;
-                quantity: number;
+                itemQuantity: number;
               };
             }>;
-          }>;
+          };
         };
       };
 };
@@ -277,7 +279,7 @@ export type FetchShopItemsQuery = {
     itemImage: string;
     itemName: string;
     itemId: string;
-    quantity: number;
+    itemQuantity: number;
     itemPrice: number;
   }>;
 };
@@ -311,7 +313,7 @@ export type LogInMutation = {
           email: string;
           id: string;
           token: string;
-          cart: Array<{
+          cart: {
             __typename?: 'UserCart';
             id: string;
             userItems: Array<{
@@ -323,10 +325,10 @@ export type LogInMutation = {
                 itemImage: string;
                 itemName: string;
                 itemPrice: number;
-                quantity: number;
+                itemQuantity: number;
               };
             }>;
-          }>;
+          };
         };
       };
 };
@@ -342,7 +344,7 @@ export const AddToCartDocument = gql`
           itemImage
           itemName
           itemPrice
-          quantity
+          itemQuantity
         }
       }
     }
@@ -451,7 +453,7 @@ export const FetchExistingCartDocument = gql`
           itemImage
           itemName
           itemPrice
-          quantity
+          itemQuantity
         }
       }
     }
@@ -523,13 +525,14 @@ export const FetchSessionDocument = gql`
           cart {
             id
             userItems {
+              cartItemQuantity
               item {
                 itemDescription
                 itemId
                 itemImage
                 itemName
                 itemPrice
-                quantity
+                itemQuantity
               }
             }
           }
@@ -588,7 +591,7 @@ export const FetchShopItemsDocument = gql`
       itemImage
       itemName
       itemId
-      quantity
+      itemQuantity
       itemPrice
     }
   }
@@ -718,7 +721,7 @@ export const LogInDocument = gql`
                 itemImage
                 itemName
                 itemPrice
-                quantity
+                itemQuantity
               }
             }
           }

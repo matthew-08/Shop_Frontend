@@ -38,12 +38,15 @@ function CartContext({ children }: { children: ReactNode }) {
         'MutationCheckForSessionSuccess'
     ) {
       const existingCart = accountFetchData.checkForSession.data.cart;
-      existingCart.map((item, index) => {
-        const nestedItem = item.userItems[index].item;
+      console.log(existingCart);
+      existingCart.userItems.map((item) => {
+        const nestedItem = item.item;
         delete nestedItem.__typename;
         setCart([...cart, nestedItem]);
+        return item;
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountFetchData]);
   const handleAddToCart = async (item: ShopItem) => {
     const itemExists = cart.find((i) => i.itemId === item.itemId);

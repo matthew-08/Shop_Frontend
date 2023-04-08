@@ -9,6 +9,19 @@ mutation fetchSession($input: SessionCheckInput!) {
         email
         id
         token
+        cart {
+          id
+          userItems {
+            item {
+              itemDescription
+              itemId
+              itemImage
+              itemName
+              itemPrice
+              quantity
+            }
+          }
+        }
       }
     }
   }

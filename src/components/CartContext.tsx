@@ -2,6 +2,7 @@ import { createContext, useState, ReactNode, useContext } from 'react';
 import {
   ShopItem,
   useAddToCartMutation,
+  useFetchExistingCartQuery,
   useIncrementItemMutation,
 } from '../generated/graphql';
 import { CartItem, CartContextType } from '../types';
@@ -21,6 +22,7 @@ function CartContext({ children }: { children: ReactNode }) {
   const { user } = useContext(AuthContext);
   const [addToCart, { loading, data, error }] = useAddToCartMutation();
   const [incrementItem] = useIncrementItemMutation();
+
   const handleAddToCart = async (item: ShopItem) => {
     const itemExists = cart.find((i) => i.itemId === item.itemId);
     if (itemExists) {

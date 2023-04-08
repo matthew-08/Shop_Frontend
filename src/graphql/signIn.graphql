@@ -11,6 +11,19 @@ mutation LogIn($LoginType: LoginType!) {
         email
         id
         token
+        cart {
+          id
+          userItems {
+            item {
+              itemDescription
+              itemId
+              itemImage
+              itemName
+              itemPrice
+              quantity
+            }
+          }
+        }
       }
     }
     ... on Error {

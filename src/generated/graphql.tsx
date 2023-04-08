@@ -117,6 +117,7 @@ export type Query = {
   itemByCategory: Array<ShopItem>;
   /** An individual shop item obtained through ID */
   itemById?: Maybe<ShopItem>;
+  userCart: UserCart;
 };
 
 export type QueryItemByCategoryArgs = {
@@ -125,6 +126,10 @@ export type QueryItemByCategoryArgs = {
 
 export type QueryItemByIdArgs = {
   id: Scalars['Int'];
+};
+
+export type QueryUserCartArgs = {
+  userId: Scalars['String'];
 };
 
 export type SessionCheckInput = {
@@ -203,6 +208,30 @@ export type IncrementItemMutation = {
   incrementCartItem: { __typename?: 'CartItem'; cartSpecificId: string };
 };
 
+export type FetchExistingCartQueryVariables = Exact<{
+  input: Scalars['String'];
+}>;
+
+export type FetchExistingCartQuery = {
+  __typename?: 'Query';
+  userCart: {
+    __typename?: 'UserCart';
+    id: string;
+    userItems: Array<{
+      __typename?: 'CartItem';
+      item: {
+        __typename?: 'ShopItem';
+        itemId: string;
+        itemDescription: string;
+        itemImage: string;
+        itemName: string;
+        itemPrice: number;
+        quantity: number;
+      };
+    }>;
+  };
+};
+
 export type FetchSessionMutationVariables = Exact<{
   input: SessionCheckInput;
 }>;
@@ -256,7 +285,28 @@ export type LogInMutation = {
     | { __typename: 'Error'; message: string }
     | {
         __typename: 'MutationLoginSuccess';
-        data: { __typename?: 'User'; email: string; id: string; token: string };
+        data: {
+          __typename?: 'User';
+          email: string;
+          id: string;
+          token: string;
+          cart: Array<{
+            __typename?: 'UserCart';
+            id: string;
+            userItems: Array<{
+              __typename?: 'CartItem';
+              item: {
+                __typename?: 'ShopItem';
+                itemDescription: string;
+                itemId: string;
+                itemImage: string;
+                itemName: string;
+                itemPrice: number;
+                quantity: number;
+              };
+            }>;
+          }>;
+        };
       };
 };
 
@@ -368,6 +418,74 @@ export type IncrementItemMutationResult =
 export type IncrementItemMutationOptions = Apollo.BaseMutationOptions<
   IncrementItemMutation,
   IncrementItemMutationVariables
+>;
+export const FetchExistingCartDocument = gql`
+  query FetchExistingCart($input: String!) {
+    userCart(userId: $input) {
+      id
+      userItems {
+        item {
+          itemId
+          itemDescription
+          itemImage
+          itemName
+          itemPrice
+          quantity
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useFetchExistingCartQuery__
+ *
+ * To run a query within a React component, call `useFetchExistingCartQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchExistingCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchExistingCartQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFetchExistingCartQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FetchExistingCartQuery,
+    FetchExistingCartQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FetchExistingCartQuery,
+    FetchExistingCartQueryVariables
+  >(FetchExistingCartDocument, options);
+}
+export function useFetchExistingCartLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FetchExistingCartQuery,
+    FetchExistingCartQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FetchExistingCartQuery,
+    FetchExistingCartQueryVariables
+  >(FetchExistingCartDocument, options);
+}
+export type FetchExistingCartQueryHookResult = ReturnType<
+  typeof useFetchExistingCartQuery
+>;
+export type FetchExistingCartLazyQueryHookResult = ReturnType<
+  typeof useFetchExistingCartLazyQuery
+>;
+export type FetchExistingCartQueryResult = Apollo.QueryResult<
+  FetchExistingCartQuery,
+  FetchExistingCartQueryVariables
 >;
 export const FetchSessionDocument = gql`
   mutation fetchSession($input: SessionCheckInput!) {
@@ -557,6 +675,19 @@ export const LogInDocument = gql`
           email
           id
           token
+          cart {
+            id
+            userItems {
+              item {
+                itemDescription
+                itemId
+                itemImage
+                itemName
+                itemPrice
+                quantity
+              }
+            }
+          }
         }
       }
       ... on Error {

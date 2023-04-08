@@ -20,6 +20,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   plugins: ["react", "@typescript-eslint", "prettier"],
+  ignorePatterns: ["jest.config.cjs", "config/jest/*.cjs", "/config/jest/*.js"],
   rules: {
     "react/react-in-jsx-scope": 0,
   },

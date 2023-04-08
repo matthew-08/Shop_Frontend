@@ -1,5 +1,7 @@
 // config/jest/setupTests.js
 import "@testing-library/jest-dom/extend-expect";
+import { expect } from '@jest/globals';
+
 
 window.matchMedia = (query) => ({
   matches: false,

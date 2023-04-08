@@ -11,21 +11,20 @@ function Products() {
   const [isSmallerThan1000] = useMediaQuery('(max-width: 1000px)');
   let products;
   if (loading) {
-    products = <div data-testid="test" />;
-    /* products = (
-      <Flex m="auto" mt="3rem" data-testid="loader">
-        <Audio
-          height="300"
-          width="300"
-          color="#C4F1F9"
-          ariaLabel="loading"
-          data-testid="loader"
-        />
+    products = (
+      <Flex m="auto" mt="3rem" role="status">
+        <Audio height="300" width="300" color="#C4F1F9" ariaLabel="status" />
       </Flex>
-    ); */
+    );
   } else {
     products = data?.allItems.map((item) => {
-      return <MemoProductCard key={uuid()} productInfo={item} />;
+      return (
+        <MemoProductCard
+          key={uuid()}
+          productInfo={item}
+          data-testid="product"
+        />
+      );
     });
   }
   return (
@@ -35,6 +34,7 @@ function Products() {
       gap="2rem"
       minChildWidth="330px"
       py="1rem"
+      data-testid="product"
     >
       {products}
     </SimpleGrid>

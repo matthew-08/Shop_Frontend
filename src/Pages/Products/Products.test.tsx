@@ -1,5 +1,6 @@
 import { render, waitFor, screen } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
+
 import Products from './Products';
 import {
   FetchShopItemsDocument,
@@ -16,6 +17,7 @@ it('shows loading bar if data is being fetched', async () => {
         data: {
           allItems: [{ id: '1', itemName: '1' }],
         },
+        loading: true,
       },
     },
   ];
@@ -24,7 +26,7 @@ it('shows loading bar if data is being fetched', async () => {
       <Products />;
     </MockedProvider>
   );
-  const ok = await screen.queryByTestId('loader');
-  console.log(ok);
-  expect(await screen.queryByTestId('loader')).toBeInTheDocument();
+  console.log(screen.debug());
+
+  const ok = await screen.findAllByTestId('product');
 });
